@@ -42,7 +42,7 @@ phases:
       - aws s3 cp s3://test123123-bucket/my-release-key.jks /home/gradle
       - zipalign -v -p 4 app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release-unsigned-aligned.apk
       # - apksigner sign --ks /home/gradle/my-release-key.jks --ks-pass env:ANDROID_SIGN_CERT_PASS --out app-release.apk app-unsigned-aligned.apk
-      - apksigner sign --ks /home/gradle/my-release-key.jks --ks-pass pass:123456 --out app/build/outputs/apk/release/app-release-signed.apk app/build/outputs/apk/release/app-unsigned-aligned.apk
+      - apksigner sign --ks /home/gradle/my-release-key.jks --ks-pass pass:123456 --out app/build/outputs/apk/release/app-release-signed.apk app/build/outputs/apk/release/app-release-unsigned-aligned.apk
 
   post_build:
     commands:
