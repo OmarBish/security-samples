@@ -9,6 +9,7 @@ phases:
   install:
     commands:
       - echo Install started on `date`
+  pre_build:
     commands:
       # Download Android SDK
       - mkdir -p "$ANDROID_HOME/cmdline-tools/"
