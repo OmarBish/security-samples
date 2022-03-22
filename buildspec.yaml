@@ -5,6 +5,10 @@ env:
     ANDROID_HOME: "/DevTools/Android" 
     ANDROID_VERSION: 28
     ANDROID_BUILD_TOOLS_VERSION: 27.0.3
+    # add var fro app name and get from CF
+  # parameter-store:
+  #   ANDROID_SIGN_CERT_PASS: set it later
+  
 phases:
   install:
     commands:
@@ -17,19 +21,29 @@ phases:
       - unzip $ANDROID_HOME/cmdline-tools/sdk.zip -d $ANDROID_HOME/cmdline-tools
       - rm $ANDROID_HOME/cmdline-tools/sdk.zip
       - mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/tools
-      - export PATH="$ANDROID_HOME/cmdline-tools/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
+      - export PATH="$ANDROID_HOME/cmdline-tools/tools/bin:$ANDROID_HOME/platform-tools:ANDROID_HOME/build-tools/$ANDROID_BUILD_TOOLS_VERSION:$PATH"
       # Install Android Build Tool and Libraries
       - yes | sdkmanager --licenses 
       - sdkmanager --update
       - sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" "platforms;android-${ANDROID_VERSION}" 
       # Install Build Essentials
       - apt-get update && apt-get install build-essential -y && apt-get install file -y && apt-get install apt-utils -y
-      # used for app signing
-      - apt-get install zipalign -y && apt-get install apksigner -y
+      # install aws cli
+      - mkdir /DevTools/AWS
+      - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/DevTools/AWS/awscliv2.zip"
+      - unzip awscliv2.zip -d /DevTools/AWS
+      - ./DevTools/AWS/aws/install
   build:
     commands:
       - echo Build started on `date`
       - gradle --stacktrace build
+      # sign the apk
+      # download cert from s3 
+      - aws s3 cp s3://test123123-bucket/my-release-key.jks /home/gradle
+      - zipalign -v -p 4 app/build/outputs/apk/release/app-release-unsigned.apk app-release-unsigned-aligned.apk
+      # - apksigner sign --ks /home/gradle/my-release-key.jks --ks-pass env:ANDROID_SIGN_CERT_PASS --out app-release.apk app-unsigned-aligned.apk
+      - apksigner sign --ks /home/gradle/my-release-key.jks --ks-pass pass:123456 --out app-release-signed.apk app-unsigned-aligned.apk
+
   post_build:
     commands:
       - echo Build completed on `date`
