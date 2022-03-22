@@ -1,22 +1,20 @@
 version: 0.1
-
+env:
+  variables:
+    SDK_URL: "https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip"
+    ANDROID_HOME: "/DevTools/Android" 
+    ANDROID_VERSION: 28
+    ANDROID_BUILD_TOOLS_VERSION: 27.0.3
 phases:
   install:
     commands:
       - echo Install started on `date`
-      - export SDK_URL="https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip" 
-      - export ANDROID_HOME="/DevTools/Android" 
-      - export ANDROID_VERSION=28 
-      - export ANDROID_BUILD_TOOLS_VERSION=27.0.3
-  pre_build:
     commands:
-      - echo $SDK_URL
       # Download Android SDK
       - mkdir -p "$ANDROID_HOME/cmdline-tools/"
-      - cd "$ANDROID_HOME/cmdline-tools/" 
-      - curl -o sdk.zip $SDK_URL 
-      - unzip sdk.zip 
-      - rm sdk.zip 
+      - curl -o $ANDROID_HOME/cmdline-tools/sdk.zip $SDK_URL 
+      - unzip sdk.zip -d ANDROID_HOME/cmdline-tools
+      - rm $ANDROID_HOME/cmdline-tools/sdk.zip
       - mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/tools
       - export PATH="$ANDROID_HOME/cmdline-tools/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
       # Install Android Build Tool and Libraries
