@@ -32,7 +32,7 @@ phases:
       - mkdir /DevTools/AWS
       - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/DevTools/AWS/awscliv2.zip"
       - unzip /DevTools/AWS/awscliv2.zip -d /DevTools/AWS
-      - ./DevTools/AWS/aws/install
+      - /DevTools/AWS/aws/install
   build:
     commands:
       - echo Build started on `date`
