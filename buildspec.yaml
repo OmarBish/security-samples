@@ -31,7 +31,7 @@ phases:
       # install aws cli
       - mkdir /DevTools/AWS
       - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/DevTools/AWS/awscliv2.zip"
-      - unzip awscliv2.zip -d /DevTools/AWS
+      - unzip /DevTools/AWS/awscliv2.zip -d /DevTools/AWS
       - ./DevTools/AWS/aws/install
   build:
     commands:
