@@ -7,7 +7,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - gradle --debug --stacktrace build
+      - gradle --stacktrace build
   post_build:
     commands:
       - echo Build completed on `date`
