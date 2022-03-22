@@ -10,6 +10,7 @@ phases:
       - export ANDROID_BUILD_TOOLS_VERSION=27.0.3
   pre_build:
     commands:
+      - echo $SDK_URL
       # Download Android SDK
       - mkdir -p "$ANDROID_HOME/cmdline-tools/"
       - cd "$ANDROID_HOME/cmdline-tools/" 
