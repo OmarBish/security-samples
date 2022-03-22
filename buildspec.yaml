@@ -16,12 +16,12 @@ phases:
   pre_build:
     commands:
       # Download Android SDK
-      - mkdir -p "$ANDROID_HOME/cmdline-tools/"
+      - mkdir -p "$ANDROID_HOME/cmdline-tools/" ~/.android
       - curl -o $ANDROID_HOME/cmdline-tools/sdk.zip $SDK_URL 
       - unzip $ANDROID_HOME/cmdline-tools/sdk.zip -d $ANDROID_HOME/cmdline-tools
       - rm $ANDROID_HOME/cmdline-tools/sdk.zip
       - mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/tools
-      - export PATH="$ANDROID_HOME/cmdline-tools/tools/bin:$ANDROID_HOME/platform-tools:ANDROID_HOME/build-tools/$ANDROID_BUILD_TOOLS_VERSION:$PATH"
+      - export PATH="$ANDROID_HOME/cmdline-tools/tools/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/$ANDROID_BUILD_TOOLS_VERSION:$PATH"
       # Install Android Build Tool and Libraries
       - yes | sdkmanager --licenses 
       - sdkmanager --update
