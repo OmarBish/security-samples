@@ -1,0 +1,17 @@
+version: 0.1
+
+phases:
+  install:
+    commands:
+      - echo Install started on `date`      
+  build:
+    commands:
+      - echo Build started on `date`
+      - gradle --debug --stacktrace build
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - app/build/outputs/apk/**/*
+  discard-paths: no
