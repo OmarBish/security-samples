@@ -14,7 +14,7 @@ phases:
       # Download Android SDK
       - mkdir -p "$ANDROID_HOME/cmdline-tools/"
       - curl -o $ANDROID_HOME/cmdline-tools/sdk.zip $SDK_URL 
-      - unzip $ANDROID_HOME/cmdline-tools/sdk.zip -d ANDROID_HOME/cmdline-tools
+      - unzip $ANDROID_HOME/cmdline-tools/sdk.zip -d $ANDROID_HOME/cmdline-tools
       - rm $ANDROID_HOME/cmdline-tools/sdk.zip
       - mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/tools
       - export PATH="$ANDROID_HOME/cmdline-tools/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
