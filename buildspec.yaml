@@ -3,7 +3,30 @@ version: 0.1
 phases:
   install:
     commands:
-      - echo Install started on `date`      
+      - echo Install started on `date`
+  pre_build:
+    commands:
+      - export SDK_URL="https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip" 
+      - export ANDROID_HOME="/DevTools/Android" 
+      - export ANDROID_VERSION=28 
+      - export ANDROID_BUILD_TOOLS_VERSION=27.0.3
+      # Download Android SDK
+      - mkdir -p "$ANDROID_HOME/cmdline-tools/"
+      - | 
+        cd "$ANDROID_HOME/cmdline-tools/" \
+        && curl -o sdk.zip $SDK_URL \
+        && unzip sdk.zip \
+        && rm sdk.zip \
+        && mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/tools
+      - export PATH="$ANDROID_HOME/cmdline-tools/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
+      # Install Android Build Tool and Libraries
+      - yes | sdkmanager --licenses 
+      - sdkmanager --update
+      - sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" "platforms;android-${ANDROID_VERSION}" 
+      # Install Build Essentials
+      - apt-get update && apt-get install build-essential -y && apt-get install file -y && apt-get install apt-utils -y
+      # used for app signing
+      - apt-get install zipalign -y && apt-get install apksigner -y
   build:
     commands:
       - echo Build started on `date`
